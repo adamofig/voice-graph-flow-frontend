@@ -1,94 +1,122 @@
-# VoiceGraphFlow
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VoiceGraphFlow 🚀
 
-## Getting Started
+VoiceGraphFlow is a high-performance, AI-driven platform built with Next.js and FastAPI. It serves as a Proof of Concept (PoC) for advanced Retrieval-Augmented Generation (RAG), document processing, and real-time AI interactions.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🏗️ PoC Architecture
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This project demonstrates how a modern web application communicates with specialized AI services:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. Backend Communication
+- **Next.js API Routes**: Acts as a secure proxy for file uploads (Edge/Node.js runtime).
+- **FastAPI Integration**: The frontend communicates directly with a FastAPI backend (running at `http://0.0.0.0:8000`) for heavy-duty tasks like semantic search and LLM processing.
+- **Real-time Streaming**: Utilizes the Vercel AI SDK for streaming LLM responses directly to the UI.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. File Chunking & Processing
+- **Docling Integration**: Uploaded files are sent to a `convert` service that uses Docling to transform documents (PDF, Docx, etc.) into clean Markdown.
+- **Intelligent Chunking**: Documents are split into semantic chunks, indexed with metadata (headings, source, chunk index), and prepared for vector-based retrieval.
 
-## Learn More
+### 3. RAG Flow (Retrieval-Augmented Generation)
+- **Search-Then-Generate**: When a query is made in the RAG interface, the system first performs a semantic search on the vector database.
+- **Context Injection**: The top relevant chunks are injected into the Gemini LLM prompt as context.
+- **Source Citation**: The UI displays exactly which chunks and sources were used to generate the answer, providing transparency and reducing hallucinations.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ✨ Available Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 🎙️ Audio Wip (`/audio`)
+*Status: In Development*
+- Exploration of voice recording and AI-driven transcription.
+- Designed for future integration with the graph-based flow processing.
 
-## Deploy on Vercel
+### 📄 File Plus (`/upload-files`)
+*Status: Ready*
+- Premium drag-and-drop interface for document uploads.
+- Securely processes documents into indexed chunks via the FastAPI backend.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 🔍 Search (`/search`)
+*Status: Ready*
+- **Keyword Search**: Traditional text-based search across indexed documents.
+- **Semantic Search**: Vector-based search that understands the *meaning* behind your query, even without exact keyword matches.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 🧠 LLM Rag (`/llm-rag`)
+*Status: Ready*
+- The core PoC interface for Retrieval-Augmented Generation.
+- Combines semantic search with Gemini 1.5/2.0 for context-aware answering.
 
-## Docker Setup
+### 💬 LLM Chat (`/llm`)
+*Status: Ready*
+- Minimalist, high-performance chat interface.
+- Supports real-time streaming for a premium, low-latency AI experience.
 
-You can run this project using Docker for a consistent production-like environment.
+---
 
-### Using Docker Compose (Recommended)
+## 🚀 Getting Started
 
-The easiest way to run the application is using Docker Compose:
+### 💻 Local Development
 
-1. **Start the application:**
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd voice-graph-flow
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment:**
+   Create a `.env.local` file with the following:
+   ```env
+   GOOGLE_GENERATIVE_AI_API_KEY=your_key_here
+   ```
+
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) to see the app.
+
+---
+
+### 🐳 Docker Setup
+
+You can run the entire project using Docker for a consistent environment.
+
+#### Using Docker Compose (Recommended)
+1. **Start everything:**
    ```bash
    docker compose up -d
    ```
+2. **Access local app:** [http://localhost:3000](http://localhost:3000)
 
-2. **Access the app:**
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-3. **Stop the application:**
-   ```bash
-   docker compose down
-   ```
-
-### Using Docker Build/Run
-
-If you prefer to build and run the image manually:
-
+#### Manual Docker Build
 1. **Build the image:**
    ```bash
    docker build -t voice-graph-flow .
    ```
-
 2. **Run the container:**
    ```bash
    docker run -p 3000:3000 --env-file .env.local voice-graph-flow
    ```
 
-### Environment Variables
+---
 
-Make sure to provide the necessary environment variables. If you are using `docker-compose`, you can add them to the `environment` section in `docker-compose.yml` or create a `.env` file in the root directory.
+## ⚙️ Environment Variables
 
-Key variables:
-- `OPENAI_API_KEY`: Required for chat functionality.
-- `NODE_ENV`: Set to `production` by default in Docker.
+| Variable | Description | Required |
+| :--- | :--- | :--- |
+| `GOOGLE_GENERATIVE_AI_API_KEY` | Key for Gemini LLM | Yes |
+| `NODE_ENV` | runtime environment (`development`/`production`) | No |
 
-## LLM Rag
+---
 
-The LLM Rag section allows you to perform semantic search and retrieval-augmented generation using the Gemini LLM.
-
-### Endpoint
-
-- **Method:** `GET`
-- **URL:** `http://0.0.0.0:8000/llm`
-- **Query Parameter:** `query` (The query text for the LLM)
-
-### Access
-
-The UI can be accessed at `/llm-rag`.
+## 🔗 Internal Navigation
+- [Main Page](/)
+- [Upload Center](/upload-files)
+- [Search Interface](/search)
+- [RAG Explorer](/llm-rag)
+- [AI Chat](/llm)
