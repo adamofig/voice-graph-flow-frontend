@@ -25,7 +25,7 @@ interface ApiResponse {
 
 export default function SearchPage() {
     const [query, setQuery] = useState('');
-    const [type, setType] = useState('keyword');
+    const [type, setType] = useState('text');
     const [limit, setLimit] = useState(5);
     const [results, setResults] = useState<SearchResult[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +38,8 @@ export default function SearchPage() {
         setIsLoading(true);
         setHasSearched(true);
         try {
-            const url = `http://0.0.0.0:8000/search?query=${encodeURIComponent(query)}&type=${type}&limit=${limit}`;
+            const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://0.0.0.0:8000';
+            const url = `${baseUrl}/search/${type}?query=${encodeURIComponent(query)}&limit=${limit}`;
             const response = await fetch(url, {
                 headers: {
                     'accept': 'application/json',
@@ -86,8 +87,9 @@ export default function SearchPage() {
                                     onChange={(e) => setType(e.target.value)}
                                     className="bg-gray-950/50 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                                 >
-                                    <option value="keyword">Keyword</option>
-                                    <option value="semantic">Semantic</option>
+                                    <option value="text">Text Search</option>
+                                    <option value="atlas">Atlas Search</option>
+                                    <option value="vector">Vector Search</option>
                                 </select>
                             </div>
                             <div className="flex items-center gap-2">
@@ -97,7 +99,7 @@ export default function SearchPage() {
                                     onChange={(e) => setLimit(Number(e.target.value))}
                                     className="bg-gray-950/50 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                                 >
-                                    {[5, 10, 20, 50].map(n => (
+                                    {[1, 5, 10, 20, 50].map(n => (
                                         <option key={n} value={n}>{n}</option>
                                     ))}
                                 </select>

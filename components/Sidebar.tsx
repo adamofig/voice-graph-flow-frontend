@@ -14,7 +14,8 @@ import {
     LogOut,
     UserCircle,
     FilePlus,
-    Search
+    Search,
+    Files
 } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -25,6 +26,7 @@ const navItems = [
     { name: 'LLM Rag', path: '/llm-rag', icon: Search },
     { name: 'Audio WIP', path: '/audio', icon: Mic2 },
     { name: 'File Plus', path: '/upload-files', icon: FilePlus },
+    { name: 'Loaded Files', path: '/files', icon: Files },
     { name: 'Search', path: '/search', icon: Search },
 ];
 

@@ -14,11 +14,13 @@ export async function POST(req: NextRequest) {
 
         console.log(`Received file: ${file.name} (${file.type}) - ${file.size} bytes`);
 
-        // Forward the file to the Python service
         const pythonFormData = new FormData();
         pythonFormData.append('file', file);
 
-        const response = await fetch('http://0.0.0.0:8000/convert', {
+        const backendUrl = process.env.BACKEND_PYTHON || 'http://0.0.0.0:8000';
+        console.log(`Forwarding file to Python service at: ${backendUrl}/convert`);
+
+        const response = await fetch(`${backendUrl}/convert`, {
             method: 'POST',
             body: pythonFormData,
         });

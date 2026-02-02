@@ -1,0 +1,73 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Voice Graph Flow API",
+    "description": "API documentation for Voice Graph Flow project.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/vector-data": {
+      "get": {
+        "operationId": "getVectorData",
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetVectorData200ResponseBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Response for status 500",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetVectorData500ResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorMessage": {
+        "type": "object",
+        "properties": { "message": { "type": "string" } },
+        "additionalProperties": false
+      },
+      "GetVectorData200ResponseBody": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "count": { "type": "number" },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "text": { "type": "string" }
+              },
+              "required": ["id", "text"]
+            }
+          }
+        },
+        "required": ["success", "count", "data"]
+      },
+      "GetVectorData500ResponseBody": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "error": { "type": "string" }
+        },
+        "required": ["success", "error"]
+      }
+    }
+  }
+}
