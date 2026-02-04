@@ -28,6 +28,7 @@ const navItems = [
     { name: 'File Plus', path: '/upload-files', icon: FilePlus },
     { name: 'Loaded Files', path: '/files', icon: Files },
     { name: 'Search', path: '/search', icon: Search },
+    { name: 'LiveTalk', path: '/live-talk', icon: Mic2 },
 ];
 
 const Sidebar = () => {

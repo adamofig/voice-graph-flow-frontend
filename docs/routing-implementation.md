@@ -52,9 +52,14 @@ By placing the `<Navbar />` inside `app/layout.tsx`, it remains persistent acros
 | `/` | Automatic redirect to `/todo` | `app/page.tsx` |
 | `/todo` | Task management application | `app/todo/page.tsx` |
 | `/llm` | AI/LLM Assistant interface | `app/llm/page.tsx` |
-| `/audio` | Audio processing tool | `app/audio/page.tsx` |
+| `/files` | Manage uploaded files | `app/files/page.tsx` |
+| `/search` | Search interface | `app/search/page.tsx` |
+| `/live-talk` | Real-time AI voice conversation with reactive orb | `app/live-talk/page.tsx` |
 
 ## Future Extensibility
 The routing system is designed to be easily expandable. To add a new tab:
 1. Create a new folder in `app/` (e.g., `app/settings/page.tsx`).
-2. Add the path and name to the `navItems` array in `components/Navbar.tsx`.
+2. Add the path and name to the `navItems` array in `components/Sidebar.tsx`.
+
+## LiveTalk Implementation
+The LiveTalk section implements a real-time voice conversation interface using the Gemini Live API. It features a reactive 2D orb visualizer that synchronizes with both the user's voice and the AI's response.

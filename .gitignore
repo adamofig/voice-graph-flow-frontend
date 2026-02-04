@@ -10,6 +10,9 @@
 !.yarn/releases
 !.yarn/versions
 
+audio-orb
+/audio-orb
+
 # testing
 /coverage
 
