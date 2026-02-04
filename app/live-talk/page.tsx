@@ -81,9 +81,9 @@ export default function LiveTalkPage() {
                         setError('');
                     },
                     onmessage: async (message: LiveServerMessage) => {
-                        const audio = message.serverContent?.modelTurn?.parts[0]?.inlineData;
+                        const audio = message.serverContent?.modelTurn?.parts?.[0]?.inlineData;
 
-                        if (audio && outputAudioContextRef.current && outputNodeRef.current) {
+                        if (audio?.data && outputAudioContextRef.current && outputNodeRef.current) {
                             nextStartTimeRef.current = Math.max(
                                 nextStartTimeRef.current,
                                 outputAudioContextRef.current.currentTime,
